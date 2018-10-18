@@ -48,7 +48,7 @@ exports.create = (req, res) => {
 exports.findByCriteria = (req, res) => {
     
     let query = {};
-    if (req.query.code) query.code = new RegExp('^' + req.query.code + '$', 'i');
+    if (req.query.code) query.code = new RegExp(req.query.code, 'i');
     if (req.query.name) query.name = new RegExp(req.query.name, 'i');
     // below is used for exact matching string
     // if (req.query.code) query.code = new RegExp('^' + req.query.code + '$', 'i');

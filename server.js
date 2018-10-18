@@ -19,6 +19,9 @@ const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
 
+// for debugging purpose, true to print query being executed, false otherwise
+mongoose.set('debug', true);
+
 // Connecting to the database
 mongoose.connect(dbConfig.url, {
     useCreateIndex: true,
@@ -36,6 +39,7 @@ app.get('/', (req, res) => {
 });
 
 require('./app/routes/course.routes.js')(app);
+require('./app/routes/activity.routes.js')(app);
 
 // listen for requests
 // app.listen(3000, () => {
