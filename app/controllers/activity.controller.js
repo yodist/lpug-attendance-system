@@ -70,7 +70,9 @@ exports.findByCriteria = (req, res) => {
     // below is used for exact matching string
     // if (req.query.code) query.code = new RegExp('^' + req.query.code + '$', 'i');
     
-    Activity.find(query).then(activities => {
+    Activity.find(query)
+    .populate('course')
+    .then(activities => {
         res.send(activities);
     }).catch(err => {
         res.status(500).send({
@@ -106,13 +108,21 @@ exports.update = (req, res) => {
             message: "Activity name can not be empty"
         });
     }
+    if (!req.body.activity_date) {
+        return res.status(400).send({
+            message: "Activity date can not be empty"
+        });
+    }
 
     // Find activity and update it with the request body
     Activity.findByIdAndUpdate(req.params.activityId, {
         name: req.body.name,
         description: req.body.description || "No description.",
-        start_date: req.body.start_date || null,
-        end_date: req.body.end_date || null,
+        activity_date: req.body.activity_date,
+        start_time: req.body.start_time || null,
+        end_time: req.body.end_time || null,
+        course: req.body.course || null,
+        activity_officers: req.body.activity_officers || null
     }, {new: true})
     .then(activity => {
         if(!activity) {
