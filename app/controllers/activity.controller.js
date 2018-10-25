@@ -72,6 +72,13 @@ exports.findByCriteria = (req, res) => {
     
     Activity.find(query)
     .populate('course')
+    .populate({
+        path: 'activity_officers',
+        populate: {
+            path: 'employee',
+            model: 'Employee'
+        }
+    })
     .then(activities => {
         res.send(activities);
     }).catch(err => {
